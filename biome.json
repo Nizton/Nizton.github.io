@@ -1,0 +1,17 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!!.tools",
+      "!!dist",
+      "!!artifacts",
+      "!!.hallmark",
+      "!!node_modules",
+      "!!test-results",
+      "!!package-lock.json"
+    ]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2 },
+  "linter": { "enabled": true, "rules": { "recommended": true } }
+}

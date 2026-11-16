@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.tools/
+.hallmark/
+artifacts/
+test-results/
+playwright-report/

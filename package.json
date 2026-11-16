@@ -1,0 +1,25 @@
+{
+  "name": "sites-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node --watch scripts/preview.ts",
+    "build": "node scripts/build.ts",
+    "preview": "node scripts/preview.ts --production",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "test": "node --test tests/render.test.ts",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.8",
+    "@playwright/test": "1.56.1",
+    "@types/node": "24.10.1",
+    "axe-core": "4.11.0",
+    "typescript": "5.9.3"
+  }
+}
