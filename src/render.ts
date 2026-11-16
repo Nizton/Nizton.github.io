@@ -1,5 +1,6 @@
 import { type WebsiteOffer, websiteOffer } from "./offer.ts";
 import type { Project, ProjectPreview } from "./projects.ts";
+import { type ClientReview, clientReviews } from "./reviews.ts";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => {
@@ -104,8 +105,14 @@ function renderProject(project: Project): string {
 export function renderPortfolio(
   projects: readonly Project[],
   offer: WebsiteOffer = websiteOffer,
+  reviews: readonly ClientReview[] = clientReviews,
 ): string {
   validateProjects(projects);
+  for (const review of reviews) {
+    if (!review.author.trim() || !review.text.trim()) {
+      throw new Error("Добавьте имя автора и текст каждого отзыва.");
+    }
+  }
   if (
     !Number.isSafeInteger(offer.startingPriceRub) ||
     offer.startingPriceRub <= 0
@@ -167,7 +174,7 @@ export function renderPortfolio(
   <a class="skip-link" href="#main">К содержимому</a>
   <header class="site-header container">
     <span class="site-name"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 3h12v12H3zM9 9h12v12H9z" stroke="currentColor" stroke-width="1.5"/></svg>Создание сайтов</span>
-    <nav aria-label="Основная навигация"><a href="#pricing">Стоимость</a><a href="#works">Работы</a><a href="#contact">Связь</a></nav>
+    <nav aria-label="Основная навигация"><a href="#pricing">Стоимость</a><a href="#works">Работы</a>${reviews.length ? '<a href="#reviews">Отзывы</a>' : ""}<a href="#contact">Связь</a></nav>
   </header>
   <main id="main" tabindex="-1">
     <section class="intro container${firstProject?.preview ? " intro--with-preview" : ""}" aria-labelledby="page-title">
@@ -208,6 +215,23 @@ export function renderPortfolio(
       </div>`
       }
     </section>
+    ${
+      reviews.length
+        ? `<section class="reviews container" id="reviews" aria-labelledby="reviews-title">
+      <h2 id="reviews-title">Отзывы клиентов</h2>
+      <div class="review-list">
+        ${reviews
+          .map(
+            (review) => `<figure class="review">
+          <blockquote><p>${escapeHtml(review.text)}</p></blockquote>
+          <figcaption>${escapeHtml(review.author)}</figcaption>
+        </figure>`,
+          )
+          .join("\n")}
+      </div>
+    </section>`
+        : ""
+    }
     <section class="process container" id="process" aria-labelledby="process-title">
       <div class="process-intro"><h2 id="process-title">Как подойти к созданию сайта</h2><p>План помогает определить объём работы. Детали и последовательность уточняются под ваш проект.</p></div>
       <ol class="process-list">

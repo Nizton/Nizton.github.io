@@ -384,6 +384,7 @@ a:focus-visible {
   color: var(--color-muted);
 }
 .approach,
+.reviews,
 .process,
 .faq {
   display: grid;
@@ -393,6 +394,7 @@ a:focus-visible {
   border-top: 1px solid var(--color-rule);
 }
 .approach h2,
+.reviews h2,
 .process h2,
 .faq h2 {
   max-width: 20ch;
@@ -400,6 +402,31 @@ a:focus-visible {
   font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.03em;
+}
+.review-list {
+  display: grid;
+  gap: var(--space-2xl);
+  min-width: 0;
+}
+.review {
+  min-width: 0;
+}
+.review + .review {
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-rule);
+}
+.review blockquote {
+  margin: 0;
+}
+.review blockquote p {
+  max-width: 65ch;
+  font-size: var(--text-intro);
+  white-space: pre-line;
+}
+.review figcaption {
+  margin-top: var(--space-lg);
+  overflow-wrap: anywhere;
+  font-weight: 500;
 }
 .approach-copy > p {
   max-width: 48ch;
@@ -638,6 +665,7 @@ a:focus-visible {
     max-width: 42rem;
   }
   .approach,
+  .reviews,
   .process,
   .faq {
     gap: var(--space-xl);
@@ -669,6 +697,7 @@ a:focus-visible {
     align-items: center;
   }
   .approach,
+  .reviews,
   .process,
   .faq,
   .project-details {
@@ -676,6 +705,7 @@ a:focus-visible {
     gap: var(--space-xl);
   }
   .approach,
+  .reviews,
   .process,
   .faq {
     padding-block: var(--space-2xl);

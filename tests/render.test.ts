@@ -10,6 +10,44 @@ const project: Project = {
   url: "https://example.com/",
 };
 
+test("review draft stays absent while the client review list is empty", () => {
+  for (const html of [
+    renderPortfolio([project]),
+    renderPortfolio([project], websiteOffer, []),
+  ]) {
+    assert.doesNotMatch(html, /id="reviews"|href="#reviews"|Отзывы клиентов/);
+  }
+});
+
+test("client reviews render safely in supplied order after the work catalogue", () => {
+  const html = renderPortfolio([project], websiteOffer, [
+    {
+      author: "Автор <первого>",
+      text: 'Тестовый отзыв <script>alert("x")</script>',
+    },
+    { author: "Второй автор", text: "Второй тестовый отзыв." },
+  ]);
+  assert.match(html, /href="#reviews"/);
+  assert.match(html, /aria-labelledby="reviews-title"/);
+  assert.match(html, /<blockquote><p>Тестовый отзыв &lt;script&gt;/);
+  assert.match(html, /<figcaption>Автор &lt;первого&gt;<\/figcaption>/);
+  assert.doesNotMatch(html, /<script>/);
+  assert.ok(html.indexOf('id="works"') < html.indexOf('id="reviews"'));
+  assert.ok(html.indexOf('id="reviews"') < html.indexOf('id="process"'));
+  assert.ok(
+    html.indexOf("Автор &lt;первого&gt;") < html.indexOf("Второй автор"),
+  );
+});
+
+test("incomplete client reviews are rejected before publication", () => {
+  for (const review of [
+    { author: " ", text: "Тестовый текст." },
+    { author: "Тестовый автор", text: " " },
+  ]) {
+    assert.throws(() => renderPortfolio([project], websiteOffer, [review]));
+  }
+});
+
 test("empty collection is honest and has no external project links", () => {
   const html = renderPortfolio([]);
   assert.match(html, /Ссылка на первый сайт ещё не добавлена/);
