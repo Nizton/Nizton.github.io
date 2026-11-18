@@ -16,7 +16,7 @@ export interface WebsiteOffer {
 const services: readonly WebsiteService[] = [
   {
     title: "Одностраничный сайт",
-    startingPriceRub: 5000,
+    startingPriceRub: 3000,
     description: "Одна страница для знакомства с продуктом, услугой или идеей.",
   },
   {

@@ -387,9 +387,9 @@ test("confirmed price, missing Telegram and optional contact remain usable", asy
   page,
 }) => {
   await page.goto("/");
-  await expect(page.locator(".starting-price")).toHaveText(/от 5\s000\s₽/);
+  await expect(page.locator(".starting-price")).toHaveText(/от 3\s000\s₽/);
   await expect(page.locator(".service-price")).toHaveText([
-    /от 5\s000\s₽/,
+    /от 3\s000\s₽/,
     /от 10\s000\s₽/,
     /от 20\s000\s₽/,
   ]);
